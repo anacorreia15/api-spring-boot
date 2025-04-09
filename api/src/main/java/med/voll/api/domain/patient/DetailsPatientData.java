@@ -1,7 +1,6 @@
-package med.voll.api.patient;
+package med.voll.api.domain.patient;
 
-import med.voll.api.adress.Adress;
-import med.voll.api.doctor.Doctor;
+import med.voll.api.domain.adress.Adress;
 
 public record DetailsPatientData(Long id, String nome, String email, String telefone, String cpf, Adress endereco) {
 
