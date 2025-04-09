@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import med.voll.api.adress.AdressData;
 
-public record RegisterDoctorData(
+public record RegisterDoctorDataDTO(
 
         @NotBlank //Verifica se não é nulo nem vazio
         String nome,

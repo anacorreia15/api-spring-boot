@@ -30,11 +30,30 @@ public class Patient {
     @Embedded
     private Adress adress;
 
-    public Patient(RegisterPatientData patientData) {
+    private boolean active;
+
+    public Patient(RegisterPatientDataDTO patientData) {
         this.nome = patientData.nome();
         this.email = patientData.email();
         this.telefone = patientData.telefone();
         this.cpf = patientData.cpf();
         this.adress = new Adress(patientData.endereco());
+        this.active = true;
+    }
+
+    public void updateData(UpdatePatientDataDTO data) {
+        if (data.nome() != null) {
+            this.nome = data.nome();
+        }
+        if (data.telefone() != null) {
+            this.telefone = data.telefone();
+        }
+        if (data.endereco() != null) {
+            this.adress.updateAdress(data.endereco());
+        }
+    }
+
+    public void delete() {
+        this.active = false;
     }
 }

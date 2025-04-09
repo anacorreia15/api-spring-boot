@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import med.voll.api.adress.AdressData;
 
-public record RegisterPatientData(
+public record RegisterPatientDataDTO(
 
         @NotBlank
         String nome,

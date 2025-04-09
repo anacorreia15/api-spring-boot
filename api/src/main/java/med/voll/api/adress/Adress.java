@@ -28,4 +28,28 @@ public class Adress {
         this.uf = endereco.uf();
         this.cep = endereco.cep();
     }
+
+    public void updateAdress(AdressData data) {
+        if (logradouro != null) {
+            this.logradouro = data.logradouro();
+        }
+        if (bairro != null) {
+            this.bairro = data.bairro();
+        }
+        if (numero != null) {
+            this.numero = data.numero();
+        }
+        if (complemento != null) {
+            this.complemento = data.complemento();
+        }
+        if (cidade != null) {
+            this.cidade = data.cidade();
+        }
+        if (uf != null) {
+            this.uf = data.uf();
+        }
+        if (cep != null) {
+            this.cep = data.cep();
+        }
+    }
 }
