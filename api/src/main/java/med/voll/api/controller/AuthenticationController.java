@@ -3,6 +3,7 @@ package med.voll.api.controller;
 import jakarta.validation.Valid;
 import med.voll.api.domain.user.AuthenticationDataDTO;
 import med.voll.api.domain.user.User;
+import med.voll.api.infra.security.TokenJWTData;
 import med.voll.api.infra.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,12 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDataDTO authenticationDataDTO) {
-        var token = new UsernamePasswordAuthenticationToken(authenticationDataDTO.login(), authenticationDataDTO.password());
-        var authentication = manager.authenticate(token);
+    public ResponseEntity<TokenJWTData> login(@RequestBody @Valid AuthenticationDataDTO authenticationDataDTO) {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(authenticationDataDTO.login(), authenticationDataDTO.password());
+        var authentication = manager.authenticate(authenticationToken);
 
-        return ResponseEntity.ok(tokenService.generateToken((User) authentication.getPrincipal()));
+        var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
+        //Padrão: Sempre devolver jsons (através de DTO's)
+        return ResponseEntity.ok(new TokenJWTData(tokenJWT));
     }
 }
