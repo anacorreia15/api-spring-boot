@@ -32,11 +32,12 @@ public class DoctorController {
         return ResponseEntity.created(uri).body(new DetailsDoctorData(doctor));
     }
 
-    // http://localhost:8080/doctor?size=1&page=2 -> size: controlar o numero de registos que quero por página (por default é 20 registos)
-    // page: controlar qual a página que quero apresentar (isto é consumido pelo client das nossas API (frontend)).
-    // Para ordenação pode usar-se também um parametro na URL p. ex: http://localhost:8080/doctor?sort=nome (por default é ASC)
-    // Para ser Desc: http://localhost:8080/doctor?sort=crm,desc
-    // Se houver parametros na URL ele respeita esse, se não usa o default.
+    /*  http://localhost:8080/doctor?size=1&page=2 -> size: controlar o numero de registos que quero por página (por default é 20 registos)
+        page: controlar qual a página que quero apresentar (isto é consumido pelo client das nossas API (frontend)).
+        Para ordenação pode usar-se também um parametro na URL p. ex: http://localhost:8080/doctor?sort=nome (por default é ASC)
+        Para ser Desc: http://localhost:8080/doctor?sort=crm,desc
+        Se houver parametros na URL ele respeita esse, se não usa o default.
+     */
     @GetMapping
     public ResponseEntity<Page<ListDoctorDataDTO>> list(@PageableDefault(size = 10, sort = {"nome"}) Pageable pagination) { //alterar o default do size; e ordenar pelo nome
         var page = repository.findAllByActiveTrue(pagination).map(ListDoctorDataDTO::new); //converter a entidade jpa num record com apenas os campos que queremos listar (DTO)
@@ -52,13 +53,11 @@ public class DoctorController {
         return ResponseEntity.ok(new DetailsDoctorData(doctor));
     }
 
-    /* *
-        *   Excluisão fsica - Forma de apagar realmente o registo
-        *   @DeleteMapping("/{id}")
-        *    public void delete(@PathVariable Long id) {
-        *       repository.deleteById(id);
-        *   }
-        *
+    /* Excluisão fsica - Forma de apagar realmente o registo
+     @DeleteMapping("/{id}")
+     public void delete(@PathVariable Long id) {
+        repository.deleteById(id);
+     }
      */
 
     /**
@@ -78,4 +77,14 @@ public class DoctorController {
         var doctor = repository.getReferenceById(id);
         return ResponseEntity.ok(new DetailsDoctorData(doctor));
     }
+
+    /* Controle de acessos por anotações (exemplo): Apenas users com a ROLE ADMIN podem disparar esta requisição
+    @GetMapping("/{id}")
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity detalhar(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
+    }
+     */
+
 }
